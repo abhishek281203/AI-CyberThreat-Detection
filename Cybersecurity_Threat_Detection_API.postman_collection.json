@@ -1,0 +1,120 @@
+{
+  "info": {
+    "_postman_id": "95a8d87c-3a9d-4f82-a7dd-b8d5ad1cb0ff",
+    "name": "Cybersecurity Threat Detection API",
+    "description": "A collection for testing the Cybersecurity Threat Detection API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            ""
+          ]
+        },
+        "description": "Check if the API is up and running"
+      },
+      "response": []
+    },
+    {
+      "name": "Single Prediction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Destination Port\": 80,\n  \"Flow Duration\": 12345,\n  \"Total Length of Fwd Packets\": 456,\n  \"Fwd Packet Length Max\": 78,\n  \"Fwd Packet Length Min\": 10,\n  \"Fwd Packet Length Mean\": 40,\n  \"Flow IAT Mean\": 50,\n  \"Flow IAT Std\": 10,\n  \"Flow IAT Max\": 100,\n  \"Fwd IAT Total\": 150,\n  \"Fwd IAT Mean\": 30,\n  \"Fwd IAT Std\": 5,\n  \"Fwd IAT Max\": 60,\n  \"Fwd IAT Min\": 10,\n  \"Fwd PSH Flags\": 0,\n  \"Fwd URG Flags\": 0,\n  \"Fwd Header Length\": 200,\n  \"Bwd Packet Length Max\": 60,\n  \"Bwd Packet Length Min\": 20,\n  \"Bwd Packet Length Mean\": 40,\n  \"Flow Bytes/s\": 1000,\n  \"Flow Packets/s\": 10,\n  \"Down/Up Ratio\": 1.5,\n  \"Average Packet Size\": 50,\n  \"Avg Fwd Segment Size\": 45,\n  \"Avg Bwd Segment Size\": 55,\n  \"Fwd Header Length.1\": 200\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/predict",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "predict"
+          ]
+        },
+        "description": "Predict if a single network flow is an attack or normal"
+      },
+      "response": []
+    },
+    {
+      "name": "Suspicious Flow Prediction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Destination Port\": 1434,\n  \"Flow Duration\": 9876,\n  \"Total Length of Fwd Packets\": 987,\n  \"Fwd Packet Length Max\": 200,\n  \"Fwd Packet Length Min\": 100,\n  \"Fwd Packet Length Mean\": 150,\n  \"Flow IAT Mean\": 150,\n  \"Flow IAT Std\": 30,\n  \"Flow IAT Max\": 300,\n  \"Fwd IAT Total\": 450,\n  \"Fwd IAT Mean\": 90,\n  \"Fwd IAT Std\": 15,\n  \"Fwd IAT Max\": 180,\n  \"Fwd IAT Min\": 30,\n  \"Fwd PSH Flags\": 1,\n  \"Fwd URG Flags\": 1,\n  \"Fwd Header Length\": 600,\n  \"Bwd Packet Length Max\": 180,\n  \"Bwd Packet Length Min\": 60,\n  \"Bwd Packet Length Mean\": 120,\n  \"Flow Bytes/s\": 10000,\n  \"Flow Packets/s\": 100,\n  \"Down/Up Ratio\": 0.5,\n  \"Average Packet Size\": 150,\n  \"Avg Fwd Segment Size\": 135,\n  \"Avg Bwd Segment Size\": 165,\n  \"Fwd Header Length.1\": 600\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/predict",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "predict"
+          ]
+        },
+        "description": "Predict for a suspicious-looking network flow"
+      },
+      "response": []
+    },
+    {
+      "name": "Batch Prediction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"Destination Port\": 80,\n    \"Flow Duration\": 12345,\n    \"Total Length of Fwd Packets\": 456,\n    \"Fwd Packet Length Max\": 78,\n    \"Fwd Packet Length Min\": 10,\n    \"Fwd Packet Length Mean\": 40,\n    \"Flow IAT Mean\": 50,\n    \"Flow IAT Std\": 10,\n    \"Flow IAT Max\": 100,\n    \"Fwd IAT Total\": 150,\n    \"Fwd IAT Mean\": 30,\n    \"Fwd IAT Std\": 5,\n    \"Fwd IAT Max\": 60,\n    \"Fwd IAT Min\": 10,\n    \"Fwd PSH Flags\": 0,\n    \"Fwd URG Flags\": 0,\n    \"Fwd Header Length\": 200,\n    \"Bwd Packet Length Max\": 60,\n    \"Bwd Packet Length Min\": 20,\n    \"Bwd Packet Length Mean\": 40,\n    \"Flow Bytes/s\": 1000,\n    \"Flow Packets/s\": 10,\n    \"Down/Up Ratio\": 1.5,\n    \"Average Packet Size\": 50,\n    \"Avg Fwd Segment Size\": 45,\n    \"Avg Bwd Segment Size\": 55,\n    \"Fwd Header Length.1\": 200\n  },\n  {\n    \"Destination Port\": 1434,\n    \"Flow Duration\": 9876,\n    \"Total Length of Fwd Packets\": 987,\n    \"Fwd Packet Length Max\": 200,\n    \"Fwd Packet Length Min\": 100,\n    \"Fwd Packet Length Mean\": 150,\n    \"Flow IAT Mean\": 150,\n    \"Flow IAT Std\": 30,\n    \"Flow IAT Max\": 300,\n    \"Fwd IAT Total\": 450,\n    \"Fwd IAT Mean\": 90,\n    \"Fwd IAT Std\": 15,\n    \"Fwd IAT Max\": 180,\n    \"Fwd IAT Min\": 30,\n    \"Fwd PSH Flags\": 1,\n    \"Fwd URG Flags\": 1,\n    \"Fwd Header Length\": 600,\n    \"Bwd Packet Length Max\": 180,\n    \"Bwd Packet Length Min\": 60,\n    \"Bwd Packet Length Mean\": 120,\n    \"Flow Bytes/s\": 10000,\n    \"Flow Packets/s\": 100,\n    \"Down/Up Ratio\": 0.5,\n    \"Average Packet Size\": 150,\n    \"Avg Fwd Segment Size\": 135,\n    \"Avg Bwd Segment Size\": 165,\n    \"Fwd Header Length.1\": 600\n  }\n]"
+        },
+        "url": {
+          "raw": "http://localhost:8000/predict",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "predict"
+          ]
+        },
+        "description": "Predict for multiple network flows in a batch"
+      },
+      "response": []
+    }
+  ]
+} 
