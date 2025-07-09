@@ -1,0 +1,24 @@
+{
+  "prediction": "Attack",
+  "attack_type": "DDoS",
+  "confidence": 0.92,
+  "timestamp": "2023-11-02T03:18:27Z",
+  "source_ip": "45.97.65.32",
+  "destination_ip": "192.168.1.100",
+  "features": {
+    "packet_size": 512,
+    "frequency": 1250,
+    "protocol": "UDP",
+    "duration": 120.7,
+    "bytes_sent": 67584000,
+    "bytes_received": 0,
+    "port": 53,
+    "flags": []
+  },
+  "details": {
+    "description": "DNS Amplification DDoS attack",
+    "risk_score": 0.95,
+    "recommended_action": "Block source IP and implement rate limiting",
+    "impact": "High - Service availability compromised"
+  }
+} 

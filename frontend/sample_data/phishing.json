@@ -1,0 +1,21 @@
+{
+  "prediction": "anomaly",
+  "confidence": 0.89,
+  "timestamp": "2023-05-14T09:23:12",
+  "features": {
+    "source_ip": "103.91.206.72",
+    "destination_ip": "192.168.1.45",
+    "protocol": "HTTPS",
+    "url": "hxxps://paypal-secure-login.account.com",
+    "domain_age_days": 3,
+    "ssl_cert": "Let's Encrypt",
+    "similar_domain": true
+  },
+  "threat_indicators": {
+    "type": "phishing",
+    "severity": "high",
+    "additional_info": "Fake PayPal login page detected",
+    "target_brand": "PayPal",
+    "techniques": ["domain_spoofing", "ssl_misuse"]
+  }
+} 

@@ -1,0 +1,19 @@
+{
+  "prediction": "anomaly",
+  "confidence": 0.96,
+  "timestamp": "2023-04-27T16:20:15",
+  "features": {
+    "source_ip": "103.41.53.8",
+    "destination_ip": "192.168.1.5",
+    "protocol": "TCP",
+    "packet_size": 64,
+    "flow_duration": 0.1,
+    "packet_count": 5000
+  },
+  "threat_indicators": {
+    "type": "ddos",
+    "severity": "high",
+    "additional_info": "SYN flood from multiple source IPs",
+    "affected_services": ["web_server", "database"]
+  }
+} 

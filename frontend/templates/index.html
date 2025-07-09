@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Cybersecurity Threat Detection{% endblock %}
+
+{% block additional_css %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<style>
+    body {
+        /* fallback for system font, but Montserrat for headings */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .hero-section {
+        background: linear-gradient(90deg, #e3f2fd 0%, #cfe2ff 100%);
+        border-radius: 20px;
+        padding: 56px 24px 40px 24px;
+        margin-bottom: 48px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .hero-title {
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 2.7rem;
+        font-weight: 900;
+        color: #0d6efd;
+        letter-spacing: -1px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeSlideUp 1s 0.1s cubic-bezier(.4,2,.6,1) forwards;
+    }
+    .hero-lead, .hero-img {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeSlideUp 1s 0.3s cubic-bezier(.4,2,.6,1) forwards;
+    }
+    .hero-img {
+        animation-delay: 0.5s;
+    }
+    .feature-card {
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        border: none;
+        transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1);
+        opacity: 0;
+        transform: translateY(40px);
+        animation: fadeSlideUp 0.9s cubic-bezier(.4,2,.6,1) forwards;
+    }
+    .feature-card.single { animation-delay: 0.7s; }
+    .feature-card.batch { animation-delay: 0.9s; }
+    .feature-card:hover {
+        transform: translateY(-6px) scale(1.025);
+        box-shadow: 0 8px 32px rgba(13,110,253,0.10);
+        z-index: 2;
+    }
+    .feature-card .btn {
+        min-width: 160px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .feature-card .btn:active {
+        transform: scale(0.97);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .feature-card.single .card-header {
+        color: #198754;
+        background: linear-gradient(90deg, #e9fbe5 0%, #f8f9fa 100%);
+    }
+    .feature-card.batch .card-header {
+        color: #6f42c1;
+        background: linear-gradient(90deg, #f3e9fb 0%, #f8f9fa 100%);
+    }
+    .feature-card.single .btn-primary {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    .feature-card.single .btn-primary:hover {
+        background-color: #146c43;
+        border-color: #146c43;
+    }
+    .feature-card.batch .btn-primary {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
+    }
+    .feature-card.batch .btn-primary:hover {
+        background-color: #59359c;
+        border-color: #59359c;
+    }
+    .divider {
+        border: none;
+        border-top: 2px solid #e3e6ea;
+        margin: 56px auto 40px auto;
+        max-width: 700px;
+        opacity: 0.7;
+    }
+    .api-endpoints-section {
+        background: #f4f8fb;
+        border-radius: 12px;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+        padding: 36px 28px;
+        margin-top: 0;
+    }
+    @media (max-width: 991px) {
+        .feature-card { min-height: 0; }
+    }
+    @keyframes fadeSlideUp {
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid hero-section text-center mb-5">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h1 class="hero-title mb-3">AI-Powered Cybersecurity Threat Detection</h1>
+            <p class="hero-lead mb-4">Detect network-based cyberattacks with advanced machine learning algorithms.</p>
+        </div>
+        <div class="col-lg-4 text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/2092/2092757.png" alt="Cybersecurity Icon" width="240" class="img-fluid hero-img">
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5 justify-content-center">
+    <div class="col-md-6 col-lg-4 d-flex">
+        <div class="card feature-card single w-100">
+            <div class="card-header text-center">
+                <i class="bi bi-person-check me-2"></i>Single Prediction
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <p>Analyze individual network flows for potential threats.</p>
+                    <p>Input network flow data and receive immediate classification results with detailed explanations.</p>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/single-prediction" class="btn btn-primary">Try Single Prediction</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <div class="card feature-card batch w-100">
+            <div class="card-header text-center">
+                <i class="bi bi-people-fill me-2"></i>Batch Prediction
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <p>Process multiple network flows simultaneously for efficient threat detection.</p>
+                    <p>Submit multiple records and receive comprehensive results to identify patterns.</p>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/batch-prediction" class="btn btn-primary">Try Batch Prediction</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="divider">
+
+<div class="api-endpoints-section mx-auto" style="max-width: 700px;">
+    <h5 class="mb-3 text-center">API Endpoints for Postman Testing</h5>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <span class="badge bg-primary me-2">POST</span>
+                <code>/api/predict</code>
+                <small class="text-muted ms-2">Single prediction endpoint</small>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <span class="badge bg-primary me-2">POST</span>
+                <code>/api/batch-predict</code>
+                <small class="text-muted ms-2">Batch prediction endpoint</small>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <span class="badge bg-success me-2">GET</span>
+                <code>/api/health</code>
+                <small class="text-muted ms-2">API health check</small>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+            <div>
+                <span class="badge bg-primary me-2">POST</span>
+                <code>/api/test-predict</code>
+                <small class="text-muted ms-2">Simplified test endpoint for Postman</small>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %} 

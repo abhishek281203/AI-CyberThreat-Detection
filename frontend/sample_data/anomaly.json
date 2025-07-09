@@ -1,0 +1,18 @@
+{
+  "prediction": "anomaly",
+  "confidence": 0.87,
+  "timestamp": "2023-04-27T15:45:22",
+  "features": {
+    "source_ip": "45.33.20.15",
+    "destination_ip": "192.168.1.10",
+    "protocol": "UDP",
+    "packet_size": 128,
+    "flow_duration": 0.3,
+    "packet_count": 200
+  },
+  "threat_indicators": {
+    "type": "port_scan",
+    "severity": "medium",
+    "additional_info": "Scanning multiple ports on target system"
+  }
+} 

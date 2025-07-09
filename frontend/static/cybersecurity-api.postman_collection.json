@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "Cybersecurity Threat Detection API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Single Prediction (Normal)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:5000/api/predict",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Flow Duration\": 5220,\n  \"Flow Bytes/s\": 4096.7,\n  \"Flow Packets/s\": 12.3,\n  \"Fwd Packet Length Max\": 1024,\n  \"Bwd Packet Length Min\": 64,\n  \"Flow IAT Mean\": 125.6,\n  \"Fwd IAT Mean\": 130.2,\n  \"Bwd IAT Mean\": 121.8,\n  \"Fwd PSH Flags\": 0,\n  \"Bwd PSH Flags\": 0,\n  \"Fwd URG Flags\": 0,\n  \"Bwd URG Flags\": 0,\n  \"Fwd Header Length\": 160,\n  \"Bwd Header Length\": 160,\n  \"Down/Up Ratio\": 1.2,\n  \"Packet Length Std\": 245.3,\n  \"Packet Length Variance\": 60158.09,\n  \"Destination Port\": 443\n}"
+        }
+      }
+    },
+    {
+      "name": "Single Prediction (Attack)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:5000/api/predict",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Flow Duration\": 958,\n  \"Flow Bytes/s\": 35621.4,\n  \"Flow Packets/s\": 983.7,\n  \"Fwd Packet Length Max\": 1420,\n  \"Bwd Packet Length Min\": 0,\n  \"Flow IAT Mean\": 12.8,\n  \"Fwd IAT Mean\": 13.5,\n  \"Bwd IAT Mean\": 0,\n  \"Fwd PSH Flags\": 1,\n  \"Bwd PSH Flags\": 0,\n  \"Fwd URG Flags\": 1,\n  \"Bwd URG Flags\": 0,\n  \"Fwd Header Length\": 320,\n  \"Bwd Header Length\": 0,\n  \"Down/Up Ratio\": 0.01,\n  \"Packet Length Std\": 12.5,\n  \"Packet Length Variance\": 156.25,\n  \"Destination Port\": 22\n}"
+        }
+      }
+    },
+    {
+      "name": "Batch Prediction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:5000/api/batch-predict",
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"Flow Duration\": 5220,\n    \"Flow Bytes/s\": 4096.7,\n    \"Flow Packets/s\": 12.3,\n    \"Fwd Packet Length Max\": 1024,\n    \"Bwd Packet Length Min\": 64,\n    \"Fwd PSH Flags\": 0,\n    \"Fwd URG Flags\": 0,\n    \"Down/Up Ratio\": 1.2,\n    \"Destination Port\": 443\n  },\n  {\n    \"Flow Duration\": 958,\n    \"Flow Bytes/s\": 35621.4,\n    \"Flow Packets/s\": 983.7,\n    \"Fwd Packet Length Max\": 1420,\n    \"Bwd Packet Length Min\": 0,\n    \"Fwd PSH Flags\": 1,\n    \"Fwd URG Flags\": 1,\n    \"Down/Up Ratio\": 0.01,\n    \"Destination Port\": 22\n  }\n]"
+        }
+      }
+    },
+    {
+      "name": "API Health",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/health"
+      }
+    },
+    {
+      "name": "Test Prediction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:5000/api/test-predict",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Flow Duration\": 958,\n  \"Flow Bytes/s\": 35621.4,\n  \"Flow Packets/s\": 983.7,\n  \"Fwd PSH Flags\": 1,\n  \"Fwd URG Flags\": 1,\n  \"Destination Port\": 22\n}"
+        }
+      }
+    }
+  ]
+} 

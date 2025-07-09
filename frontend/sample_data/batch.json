@@ -1,0 +1,156 @@
+[
+  {
+    "id": "pkt-001",
+    "source_ip": "192.168.1.5",
+    "destination_ip": "142.250.190.78",
+    "source_port": 49821,
+    "destination_port": 443,
+    "protocol": "TCP",
+    "packet_length": 1420,
+    "packet_time": "2023-10-15T12:23:45.089",
+    "flags": "ACK",
+    "flow_duration": 350,
+    "packets_per_second": 12.7,
+    "bytes_per_second": 15240,
+    "prediction": {
+      "result": "normal",
+      "confidence": 0.97,
+      "analysis": "Standard HTTPS communication to Google services. Traffic patterns match expected behavior for web browsing."
+    },
+    "additional_features": {
+      "tcp_window_size": 64240,
+      "ttl": 64,
+      "packet_loss_rate": 0.001,
+      "retransmission_count": 0,
+      "connection_state": "ESTABLISHED",
+      "application_protocol": "HTTPS",
+      "traffic_category": "Web Browsing",
+      "is_encrypted": true,
+      "data_transfer_rate": "15.2 KB/s"
+    }
+  },
+  {
+    "id": "pkt-002",
+    "source_ip": "45.33.21.176",
+    "destination_ip": "192.168.1.10",
+    "source_port": 56842,
+    "destination_port": 22,
+    "protocol": "TCP",
+    "packet_length": 60,
+    "packet_time": "2023-10-15T14:37:08.142",
+    "flags": "SYN",
+    "flow_duration": 120,
+    "packets_per_second": 438.6,
+    "bytes_per_second": 26316,
+    "prediction": {
+      "result": "brute_force",
+      "confidence": 0.89,
+      "analysis": "Suspicious SSH traffic with high packet rate. Pattern matches brute force attack signature with repeated connection attempts from external IP."
+    },
+    "additional_features": {
+      "tcp_window_size": 29200,
+      "ttl": 54,
+      "packet_loss_rate": 0.002,
+      "retransmission_count": 3,
+      "connection_state": "SYN_SENT",
+      "application_protocol": "SSH",
+      "traffic_category": "Authentication",
+      "is_encrypted": true,
+      "attack_signature": "Rapid connection attempts with minimal data exchange",
+      "threat_level": "High",
+      "source_reputation": "Previously associated with malicious activity"
+    }
+  },
+  {
+    "id": "pkt-003",
+    "source_ip": "192.168.1.7",
+    "destination_ip": "192.168.1.1",
+    "source_port": 53124,
+    "destination_port": 53,
+    "protocol": "UDP",
+    "packet_length": 78,
+    "packet_time": "2023-10-15T13:42:18.321",
+    "flags": null,
+    "flow_duration": 42,
+    "packets_per_second": 2.4,
+    "bytes_per_second": 187,
+    "prediction": {
+      "result": "normal",
+      "confidence": 0.99,
+      "analysis": "Regular DNS lookup to local DNS server. Normal frequency and packet size for DNS queries."
+    },
+    "additional_features": {
+      "tcp_window_size": null,
+      "ttl": 128,
+      "packet_loss_rate": 0.0,
+      "retransmission_count": 0,
+      "connection_state": "QUERY",
+      "application_protocol": "DNS",
+      "traffic_category": "Name Resolution",
+      "is_encrypted": false,
+      "data_transfer_rate": "0.18 KB/s"
+    }
+  },
+  {
+    "id": "pkt-004",
+    "source_ip": "72.14.195.33",
+    "destination_ip": "192.168.1.15",
+    "source_port": 80,
+    "destination_port": 51234,
+    "protocol": "TCP",
+    "packet_length": 4280,
+    "packet_time": "2023-10-15T15:12:34.567",
+    "flags": "ACK,PSH",
+    "flow_duration": 520,
+    "packets_per_second": 7.2,
+    "bytes_per_second": 30816,
+    "prediction": {
+      "result": "data_exfiltration",
+      "confidence": 0.76,
+      "analysis": "Unusual data transfer pattern. Large outbound data volume to uncommon destination at non-standard times."
+    },
+    "additional_features": {
+      "tcp_window_size": 65535,
+      "ttl": 52,
+      "packet_loss_rate": 0.003,
+      "retransmission_count": 1,
+      "connection_state": "ESTABLISHED",
+      "application_protocol": "HTTP",
+      "traffic_category": "Data Transfer",
+      "is_encrypted": false,
+      "attack_signature": "Unusual data volume during off-hours",
+      "threat_level": "Medium",
+      "destination_reputation": "Uncommon destination for organization traffic"
+    }
+  },
+  {
+    "id": "pkt-005",
+    "source_ip": "192.168.1.20",
+    "destination_ip": "17.253.144.10",
+    "source_port": 49152,
+    "destination_port": 443,
+    "protocol": "TCP",
+    "packet_length": 875,
+    "packet_time": "2023-10-15T12:58:12.432",
+    "flags": "ACK,PSH",
+    "flow_duration": 275,
+    "packets_per_second": 5.8,
+    "bytes_per_second": 5075,
+    "prediction": {
+      "result": "normal",
+      "confidence": 0.95,
+      "analysis": "Regular HTTPS traffic to Apple services. Expected communication pattern for device updates and services."
+    },
+    "additional_features": {
+      "tcp_window_size": 43690,
+      "ttl": 64,
+      "packet_loss_rate": 0.001,
+      "retransmission_count": 0,
+      "connection_state": "ESTABLISHED",
+      "application_protocol": "HTTPS",
+      "traffic_category": "Service Communication",
+      "is_encrypted": true,
+      "data_transfer_rate": "5.0 KB/s"
+    }
+  }
+] 

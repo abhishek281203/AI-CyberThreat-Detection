@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Single Prediction - Cybersecurity Threat Detection{% endblock %}
+
+{% block additional_css %}
+<style>
+    .form-label {
+        font-weight: 500;
+    }
+    .prediction-card {
+        display: none;
+        transition: all 0.3s ease;
+    }
+    .prediction-normal {
+        border-left: 5px solid #198754;
+    }
+    .prediction-attack {
+        border-left: 5px solid #dc3545;
+    }
+    .confidence-bar {
+        height: 10px;
+        border-radius: 5px;
+    }
+    .json-container {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: monospace;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    #loadingSpinner {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h3"><i class="bi bi-person-check me-2"></i>Single Network Flow Prediction</h1>
+            <span class="badge {% if api_status %}bg-success{% else %}bg-warning{% endif %} p-2">
+                <i class="bi {% if api_status %}bi-cloud-check{% else %}bi-cloud-slash{% endif %} me-1"></i>
+                API: {% if api_status %}Connected{% else %}Offline (Using Fallback){% endif %}
+            </span>
+        </div>
+        <p class="text-muted">Analyze an individual network flow to detect potential security threats.</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="h5 mb-0"><i class="bi bi-input-cursor-text me-2"></i>Network Flow Data</h2>
+            </div>
+            <div class="card-body">
+                <form id="predictionForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="flowDuration" class="form-label">Flow Duration (ms)</label>
+                            <input type="number" class="form-control" id="flowDuration" name="Flow Duration">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="destinationPort" class="form-label">Destination Port</label>
+                            <input type="number" class="form-control" id="destinationPort" name="Destination Port">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="flowBytesPerSec" class="form-label">Flow Bytes/s</label>
+                            <input type="number" class="form-control" id="flowBytesPerSec" name="Flow Bytes/s" step="0.1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="flowPacketsPerSec" class="form-label">Flow Packets/s</label>
+                            <input type="number" class="form-control" id="flowPacketsPerSec" name="Flow Packets/s" step="0.1">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="fwdPacketLengthMax" class="form-label">Fwd Packet Length Max</label>
+                            <input type="number" class="form-control" id="fwdPacketLengthMax" name="Fwd Packet Length Max">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="downUpRatio" class="form-label">Down/Up Ratio</label>
+                            <input type="number" class="form-control" id="downUpRatio" name="Down/Up Ratio" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="fwdPshFlags" class="form-label">Fwd PSH Flags</label>
+                            <input type="number" class="form-control" id="fwdPshFlags" name="Fwd PSH Flags">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fwdUrgFlags" class="form-label">Fwd URG Flags</label>
+                            <input type="number" class="form-control" id="fwdUrgFlags" name="Fwd URG Flags">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" id="loadNormalBtn">
+                            <i class="bi bi-shield me-1"></i>Load Normal Example
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" id="loadAttackBtn">
+                            <i class="bi bi-exclamation-triangle me-1"></i>Load Attack Example
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="predictBtn">
+                            <i class="bi bi-lightning me-1"></i>Predict
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div id="loadingSpinner" class="text-center p-5">
+            <div class="spinner-border text-primary loading-spinner" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Processing network flow data...</p>
+        </div>
+        
+        <div id="predictionResult" class="prediction-card">
+            <div class="card mb-4" id="predictionCard">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0"><i class="bi bi-shield-check me-2"></i>Prediction Result</h2>
+                    <span id="predictionBadge" class="badge bg-success">Normal</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-3">Confidence Level</h5>
+                    <div class="progress mb-3">
+                        <div id="confidenceBar" class="progress-bar confidence-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <p id="confidenceText" class="text-muted text-center"></p>
+                    
+                    <div id="attackDetails" style="display: none;">
+                        <h5 class="mt-4 mb-3">Risk Indicators</h5>
+                        <ul id="indicatorsList" class="list-group mb-3">
+                            <!-- Indicators will be added here dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const predictionForm = document.getElementById('predictionForm');
+        const loadNormalBtn = document.getElementById('loadNormalBtn');
+        const loadAttackBtn = document.getElementById('loadAttackBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const predictionResult = document.getElementById('predictionResult');
+        const predictionCard = document.getElementById('predictionCard');
+        const predictionBadge = document.getElementById('predictionBadge');
+        const confidenceBar = document.getElementById('confidenceBar');
+        const confidenceText = document.getElementById('confidenceText');
+        const attackDetails = document.getElementById('attackDetails');
+        const indicatorsList = document.getElementById('indicatorsList');
+        const rawJson = document.getElementById('rawJson');
+        
+        // Load normal example
+        loadNormalBtn.addEventListener('click', function() {
+            fetch('/api/sample-data?type=normal&form=true')
+                .then(response => response.json())
+                .then(data => {
+                    populateForm(data);
+                });
+        });
+        
+        // Load attack example
+        loadAttackBtn.addEventListener('click', function() {
+            fetch('/api/sample-data?type=attack&form=true')
+                .then(response => response.json())
+                .then(data => {
+                    populateForm(data);
+                });
+        });
+        
+        // Form submission
+        predictionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+            predictionResult.style.display = 'none';
+            
+            // Collect form data
+            const formData = {};
+            const formElements = predictionForm.elements;
+            for (let i = 0; i < formElements.length; i++) {
+                const element = formElements[i];
+                if (element.name && element.value) {
+                    formData[element.name] = isNaN(element.value) ? element.value : Number(element.value);
+                }
+            }
+            
+            // Make prediction request
+            fetch('/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayPrediction(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while making the prediction.');
+                loadingSpinner.style.display = 'none';
+            });
+        });
+        
+        // Helper function to populate form with sample data
+        function populateForm(data) {
+            for (const [key, value] of Object.entries(data)) {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) {
+                    element.value = value;
+                }
+            }
+        }
+        
+        // Helper function to display prediction results
+        function displayPrediction(data) {
+            // Hide loading spinner and show results
+            loadingSpinner.style.display = 'none';
+            predictionResult.style.display = 'block';
+            
+            // Set prediction class and badge
+            const isPredictionNormal = data.prediction === 'Normal';
+            predictionCard.className = isPredictionNormal ? 
+                'card prediction-normal mb-4' : 'card prediction-attack mb-4';
+            predictionBadge.className = isPredictionNormal ? 
+                'badge bg-success' : 'badge bg-danger';
+            predictionBadge.textContent = data.prediction;
+            
+            // Set confidence level
+            let confidence = data.prediction_probability;
+            if (data.confidence) confidence = data.confidence; // For test-predict endpoint
+            
+            confidenceBar.style.width = `${confidence * 100}%`;
+            confidenceBar.className = isPredictionNormal ? 
+                'progress-bar bg-success' : 'progress-bar bg-danger';
+            confidenceText.textContent = `${(confidence * 100).toFixed(2)}% confidence`;
+            
+            // Display attack indicators if available
+            if (!isPredictionNormal && data.prediction_details && data.prediction_details.indicators) {
+                attackDetails.style.display = 'block';
+                indicatorsList.innerHTML = '';
+                
+                data.prediction_details.indicators.forEach(indicator => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.innerHTML = `<i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>${indicator}`;
+                    indicatorsList.appendChild(li);
+                });
+            } else {
+                attackDetails.style.display = 'none';
+            }
+        }
+    });
+</script>
+{% endblock %} 
